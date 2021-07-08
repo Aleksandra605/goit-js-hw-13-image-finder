@@ -1,0 +1,93 @@
+/* @import '@pnotify/core/dist/PNotify.css';
+@import '@pnotify/bootstrap4/dist/PNotifyBootstrap4.css'; */
+/* @import '@pnotify/core/dist/BrightTheme.css'; */
+
+*,
+*::before,
+*::after {
+  /* outline: 1px solid blueviolet; */
+  font-size: 12px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.search-form {
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.input {
+  width: 200px;
+  outline: 0;
+}
+
+.btn-load-more {
+  width: max-content;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+  width: 1200px;
+}
+
+.gallery-item {
+  display: flex;
+}
+
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 200px;
+  margin-bottom: 10px;
+  border: 1px solid green;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  /* padding-top: 10px; */
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.stats-item {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.material-icons.md-16 {
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.is-hidden {
+  visibility: hidden;
+}
+
+.image-modal {
+  display: flex;
+}
+
+
+/*# sourceMappingURL=/goit-js-hw-13-image-finder/styles.4bd2ac73.css.map */

@@ -22,7 +22,6 @@ const refs = {
 };
 
 const pixabayApiService = new PixabayApiService();
-let selectedItemIndex = null;
 
 refs.searchForm.addEventListener('submit', onSearch);
 refs.btnSearch.addEventListener('submit', onSearch);
@@ -40,10 +39,10 @@ function onSearch(e) {
     .fetchArticles()
     .then((hits) => {
       console.log(hits);
-      if (!hits.length == 0) {
+      if (hits.length > 0) {
         showStackBottomRight('success');
         refs.loadMoreBtn.classList.remove('is-hidden');
-        console.log(array);
+
         return renderCard(hits);
       } else {
         refs.loadMoreBtn.classList.add('is-hidden');
@@ -57,7 +56,7 @@ function onSearch(e) {
 }
 
 function renderCard(hits) {
-  // console.log(hits);
+  console.log('Rendering card');
   refs.container.insertAdjacentHTML('beforeend', imageCard(hits));
 }
 

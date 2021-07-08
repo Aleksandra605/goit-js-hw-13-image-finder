@@ -19,8 +19,6 @@ export default class PixabayApiService {
       .then((response) => response.json())
       .then(({ hits }) => {
         this.incrementPage();
-        array = hits;
-
         return hits;
       });
   }
