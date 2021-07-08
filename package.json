@@ -8,7 +8,7 @@
     "dev": "parcel src/index.html",
     "build": "parcel build --no-minify src/index.html",
     "predeploy": "npm run build -- --public-url /goit-js-hw-13-image-finder/",
-    "deploy": "master -d dist"
+    "deploy": "gh-pages -d dist"
   },
   "author": "",
   "license": "ISC",
