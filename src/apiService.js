@@ -1,4 +1,3 @@
-// import { alert } from '@pnotify/core';
 import { showStackBottomRight } from './showNotice';
 
 export default class PixabayApiService {

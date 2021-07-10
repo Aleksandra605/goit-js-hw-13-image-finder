@@ -2,7 +2,6 @@ import PixabayApiService from './apiService';
 import * as basicLightbox from 'basiclightbox';
 import imageCard from './templates/image-card.hbs';
 
-import { showModal } from './showModal';
 import { showStackBottomRight } from './showNotice';
 import { defaultModules } from '@pnotify/core';
 import * as PNotifyBootstrap4 from '@pnotify/bootstrap4';
@@ -27,6 +26,10 @@ refs.searchForm.addEventListener('submit', onSearch);
 refs.btnSearch.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
+let selectedIndex = null;
+let modalInstance = null;
+let currentHits = [];
+
 function onSearch(e) {
   e.preventDefault();
   pixabayApiService.query = e.currentTarget.elements.query.value;
@@ -39,11 +42,12 @@ function onSearch(e) {
     .fetchArticles()
     .then((hits) => {
       console.log(hits);
+
       if (hits.length > 0) {
+        currentHits = hits;
         showStackBottomRight('success');
         refs.loadMoreBtn.classList.remove('is-hidden');
-
-        return renderCard(hits);
+        return renderCard(currentHits);
       } else {
         refs.loadMoreBtn.classList.add('is-hidden');
         showStackBottomRight('error');
@@ -55,13 +59,30 @@ function onSearch(e) {
   refs.container.addEventListener('click', openModal);
 }
 
+function scrollToLastGallery() {
+  // 1. simple scroll to 'load more' button - it's allways on bottom
+  refs.loadMoreBtn.scrollIntoView();
+
+  // 2. for next items  you render separate gallery (html element)
+  // so in this case you need to find the last one and scroll to it
+  // const allGalleries = document.querySelectorAll('.gallery');
+  // const lastGallery = allGalleries[allGalleries.length - 1];
+  // lastGallery.scrollIntoView();
+}
+
 function renderCard(hits) {
   console.log('Rendering card');
   refs.container.insertAdjacentHTML('beforeend', imageCard(hits));
 }
 
 function onLoadMore() {
-  pixabayApiService.fetchArticles().then(renderCard);
+  pixabayApiService
+    .fetchArticles()
+    .then((hits) => {
+      currentHits = [...currentHits, ...hits];
+      return renderCard(hits);
+    })
+    .then(scrollToLastGallery); // u can use it at thend of renderCard too
 }
 
 function clearContainer() {
@@ -69,35 +90,44 @@ function clearContainer() {
 }
 
 function openModal(event) {
-  const instance = basicLightbox.create(`
-    <img src="${event.target.src}" width="800" height="600">
-`);
-  instance.show();
-  console.log(hits.indexOf(event.target));
-  // window.addEventListener('keydown', turnOnKeys);
+  if (!event.target.src) {
+    return;
+  }
+
+  // find current index by finding item by its id (id is added in template)
+  selectedIndex = currentHits.findIndex((el) => el.id === +event.target.dataset.id);
+
+  modalInstance = basicLightbox.create(`<img src="${event.target.src}" width="800" height="600">`, {
+    onClose: onCloseModal,
+    onShow: onShowModal,
+  });
+  modalInstance.show();
 }
 
-// const turnOnKeys = (event) => {
-//   if (event.keyCode === 27) {
-//     modalClose(event);
-//     return;
-//   }
-//   // arrow right
-//   if (event.keyCode === 39) {
-//     if (selectedItemIndex === images.length - 1) {
-//       selectedItemIndex = 0;
-//     } else {
-//       selectedItemIndex++;
-//     }
-//     lightBoxImage.src = images[selectedItemIndex].original;
-//   }
-//   // arrow left
-//   if (event.keyCode === 37) {
-//     if (selectedItemIndex === 0) {
-//       selectedItemIndex = images.length;
-//     } else {
-//       selectedItemIndex--;
-//     }
-//     lightBoxImage.src = images[selectedItemIndex].original;
-//   }
-// };
+function onShowModal() {
+  window.addEventListener('keydown', turnOnKeys);
+}
+
+function onCloseModal() {
+  // need to remove event listener (no need to listen on key event when modal is closed)
+  window.removeEventListener('keydown', turnOnKeys);
+}
+
+const turnOnKeys = (event) => {
+  if (event.keyCode === 27) {
+    modalInstance.close();
+    return;
+  }
+
+  // arrow right
+  if (event.keyCode === 39) {
+    selectedIndex = selectedIndex === currentHits.length - 1 ? 0 : selectedIndex + 1;
+    modalInstance.element().querySelector('img').src = currentHits[selectedIndex].webformatURL;
+    // or you can add some id in <img> when u create modal (openModal function) and here you can find this element by this id
+  }
+  // arrow left
+  if (event.keyCode === 37) {
+    selectedIndex = selectedIndex === 0 ? currentHits.length - 1 : selectedIndex - 1;
+    modalInstance.element().querySelector('img').src = currentHits[selectedIndex].webformatURL;
+  }
+};

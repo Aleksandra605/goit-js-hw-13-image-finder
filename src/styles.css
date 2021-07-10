@@ -2,17 +2,12 @@
 @import '@pnotify/bootstrap4/dist/PNotifyBootstrap4.css'; */
 /* @import '@pnotify/core/dist/BrightTheme.css'; */
 
-*,
-*::before,
-*::after {
-  /* outline: 1px solid blueviolet; */
-  font-size: 12px;
-}
-
 .body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-image: url(./image/ptitsy_provoda_chb_130137_1280x960.jpg);
+  background-size: auto;
 }
 
 .search-form {
@@ -26,12 +21,30 @@
 .input {
   width: 200px;
   outline: 0;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .btn-load-more {
   width: max-content;
+  margin-top: 20px;
+  margin-bottom: 20px;
   margin-right: auto;
   margin-left: auto;
+}
+
+.common-style-btn {
+  outline: 0 !important;
+  color: azure;
+  background-color: rgba(0, 0, 0, 0.486);
+  border-color: rgba(0, 0, 0, 0) !important;
+}
+
+.common-style-btn:hover,
+.common-style-btn:focus {
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.39);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.39);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.39);
 }
 
 .content-container {
@@ -52,12 +65,14 @@
 }
 
 .photo-card {
+  -moz-box-shadow: 0 0 10px #000;
+  -webkit-box-shadow: 0 0 10px #000;
+  box-shadow: 0 0 10px #000;
   display: flex;
   flex-direction: column;
   width: 250px;
   height: 200px;
-  margin-bottom: 10px;
-  border: 1px solid green;
+  margin-bottom: 20px;
 }
 
 .stats {
@@ -74,6 +89,7 @@
   display: flex;
   align-items: center;
   margin: 0;
+  font-size: 12px;
 }
 
 .material-icons.md-16 {
