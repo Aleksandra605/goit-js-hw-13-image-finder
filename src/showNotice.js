@@ -3,7 +3,7 @@ import { alert } from '@pnotify/core';
 export function showStackBottomRight(type) {
   console.log('its PNOTIFY');
   const opts = {
-    width: '150px',
+    width: '200px',
     title: 'Oops(',
     text: 'Too much for me, make your request more specific.',
     stack: window.stackBottomRight,
@@ -13,6 +13,7 @@ export function showStackBottomRight(type) {
       opts.title = 'Oh No';
       opts.text = 'No results!! ';
       opts.type = 'error';
+      // opts.width;
       break;
     case 'info':
       opts.title = '';
